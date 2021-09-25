@@ -70,7 +70,7 @@ RSpec.describe InvoiceItem, type: :model do
       @ii_1 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_1.id, quantity: 9, unit_price: 100, status: 0)
       @ii_2 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_2.id, quantity: 29, unit_price: 80, status: 0)
       #should have no eligible_discount
-      @ii_3 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_2.id, quantity: 2, unit_price: 0, status: 2)
+      @ii_3 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_2.id, quantity: 2, unit_price: 1, status: 2)
       #Transaction is successful
       @transaction1 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @invoice_1.id)
 
@@ -111,7 +111,13 @@ RSpec.describe InvoiceItem, type: :model do
     it 'eligible_discount' do
       expect(@ii_1.eligible_discount).to eq(@bulk_discount_3)
       expect(@ii_2.eligible_discount).to eq(@bulk_discount_2)
-      expect(@ii_3.eligible_discount).to eq('no discount')
+      expect(@ii_3.eligible_discount).to eq(nil)
+    end
+
+    it 'discounted_total' do
+      expect(@ii_1.discounted_total).to eq(882)
+      expect(@ii_2.discounted_total).to eq(2204)
+      expect(@ii_3.discounted_total).to eq(2)
     end
   end
 end
