@@ -10,6 +10,15 @@ RSpec.describe 'bulk discount edit page' do
     visit edit_merchant_bulk_discount_path(@merchant1, @bulk_discount_1)
   end
 
+  it 'can edit a bulk discount' do
+    fill_in :bulk_discount_discount, with: 1
+    fill_in :bulk_discount_threshold, with: 7
+    click_button :save
+
+    expect(current_path).to eq(merchant_bulk_discount_path(@merchant1, @bulk_discount_1))
+    expect(page).to have_content(1)
+    expect(page).to have_content(7)
+  end
 end
 # As a merchant
 # When I visit my bulk discount show page
