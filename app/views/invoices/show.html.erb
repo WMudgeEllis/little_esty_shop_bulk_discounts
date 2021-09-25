@@ -49,7 +49,10 @@
             <td style="text-align:center"><%= form_with model: @invoice, url: merchant_invoice_path(@merchant, @invoice), method: :patch, local: true do |f| %>
                                             <%= f.select :status, Invoice.statuses.keys, selected: "#{@invoice.status}" %>
                                             <%= f.submit 'Update Invoice' %>
-                                          <% end %></td><br/>
+                                            <% end %></td>
+              <% if i.eligible_discount != nil %>
+                <td style="text-align:center">$<%= link_to 'applied discount', [@merchant, i.eligible_discount] %></td>
+              <% end %><br/>
           </tr>
         </section>
       <% end %>

@@ -128,7 +128,7 @@ RSpec.describe 'invoices show' do
       #total for ii_1 is 882
       #total for ii_2 is 2204
       #discounted grand total: 3086
-      #discounted grant total: 3220
+      #undiscounted grant total: 3220
       @ii_1 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_1.id, quantity: 9, unit_price: 100, status: 0)
       @ii_2 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_2.id, quantity: 29, unit_price: 80, status: 0)
       #Transaction is successful
@@ -183,11 +183,8 @@ RSpec.describe 'invoices show' do
         click_link 'applied discount'
       end
 
-      expect(current_path).to eq(merchant_invoice_path(@merchant1, @ii_2))
+      expect(current_path).to eq(merchant_bulk_discount_path(@merchant1, @bulk_discount_2))
     end
   end
 
 end
-# As a merchant
-# When I visit my merchant invoice show page
-# Next to each invoice item I see a link to the show page for the bulk discount that was applied (if any)
