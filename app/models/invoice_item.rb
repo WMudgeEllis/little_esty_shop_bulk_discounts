@@ -14,4 +14,17 @@ class InvoiceItem < ApplicationRecord
     invoice_ids = InvoiceItem.where("status = 0 OR status = 1").pluck(:invoice_id)
     Invoice.order(created_at: :asc).find(invoice_ids)
   end
+
+  def eligible_discount
+    BulkDiscount.where('threshold <= ?', quantity)
+                .order(discount: :desc)
+                .first
+    #what do I want it to return if there is no discount?
+  end
+
+  def discounted_total
+    discount = 1
+    discount = (100 - eligible_discount.discount)/100.to_f if eligible_discount != nil
+    quantity * unit_price * discount
+  end
 end
