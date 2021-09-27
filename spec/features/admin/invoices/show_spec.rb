@@ -76,6 +76,7 @@ RSpec.describe 'Admin Invoices Index Page' do
   describe 'bulk discounts' do
     before :each do
       @merchant1 = Merchant.create!(name: 'Hair Care')
+      @merchant_2 = Merchant.create!(name: '99 Percent off!')
 
       @bulk_discount_1 = BulkDiscount.create!(merchant_id: @merchant1.id, discount: 10, threshold: 30)
       @bulk_discount_2 = BulkDiscount.create!(merchant_id: @merchant1.id, discount: 5, threshold: 10)
@@ -104,6 +105,8 @@ RSpec.describe 'Admin Invoices Index Page' do
       @ii_2 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_2.id, quantity: 29, unit_price: 80, status: 0)
       #Transaction is successful
       @transaction1 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @invoice_1.id)
+
+      @bulk_discount_4 = BulkDiscount.create!(merchant_id: @merchant_2.id, discount: 99, threshold: 1)
     end
 
     it 'shows discounted recvenue' do

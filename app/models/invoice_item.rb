@@ -16,7 +16,10 @@ class InvoiceItem < ApplicationRecord
   end
 
   def eligible_discount
-    BulkDiscount.where('threshold <= ?', quantity)
+    merchant_id = item.merchant_id
+    BulkDiscount.joins(merchant: :items)
+                .where(merchant_id: merchant_id)
+                .where('threshold <= ?', quantity)
                 .order(discount: :desc)
                 .first
     #what do I want it to return if there is no discount?
