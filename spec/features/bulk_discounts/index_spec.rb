@@ -84,4 +84,10 @@ RSpec.describe 'bulk discount index page' do
     expect(current_path).to eq(merchant_bulk_discounts_path(@merchant1))
     expect(page).to_not have_content("Percent off: 10")
   end
+
+  it 'can see next three holidays' do
+    expect(page).to have_content('Columbus Day')
+    expect(page).to have_content('Veterans Day')
+    expect(page).to have_content('Thanksgiving Day')
+  end
 end
