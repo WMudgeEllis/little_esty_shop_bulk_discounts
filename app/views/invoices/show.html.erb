@@ -21,7 +21,7 @@
 
   <p> Created on: <%= @invoice.created_at.strftime("%A, %B %-d, %Y") %></p>
   <p>Total Revenue: <%= @invoice.total_revenue %></p>
-  <p>Total Revenue: <%= @invoice.discounted_revenue %></p>
+  <p>Discounted Revenue: <%= @invoice.discounted_revenue.round(2) %></p>
 
 
   <h4>Customer:</h4>
@@ -49,7 +49,10 @@
             <td style="text-align:center"><%= form_with model: @invoice, url: merchant_invoice_path(@merchant, @invoice), method: :patch, local: true do |f| %>
                                             <%= f.select :status, Invoice.statuses.keys, selected: "#{@invoice.status}" %>
                                             <%= f.submit 'Update Invoice' %>
-                                          <% end %></td><br/>
+                                            <% end %></td>
+              <% if i.eligible_discount != nil %>
+                <td style="text-align:center">$<%= link_to 'applied discount', [@merchant, i.eligible_discount] %></td>
+              <% end %><br/>
           </tr>
         </section>
       <% end %>

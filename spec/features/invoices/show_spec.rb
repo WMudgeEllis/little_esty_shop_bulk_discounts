@@ -128,7 +128,7 @@ RSpec.describe 'invoices show' do
       #total for ii_1 is 882
       #total for ii_2 is 2204
       #discounted grand total: 3086
-      #discounted grant total: 3220
+      #undiscounted grant total: 3220
       @ii_1 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_1.id, quantity: 9, unit_price: 100, status: 0)
       @ii_2 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_2.id, quantity: 29, unit_price: 80, status: 0)
       #Transaction is successful
@@ -175,9 +175,16 @@ RSpec.describe 'invoices show' do
 
       expect(page).to have_content(@invoice_1.discounted_revenue)
     end
+
+    it 'links to applied discounts' do
+      visit merchant_invoice_path(@merchant1, @invoice_1)
+
+      within("#the-status-#{@ii_2.id}") do
+        click_link 'applied discount'
+      end
+
+      expect(current_path).to eq(merchant_bulk_discount_path(@merchant1, @bulk_discount_2))
+    end
   end
 
 end
-# When I visit my merchant invoice show page
-# Then I see the total revenue for my merchant from this invoice (not including discounts)
-# And I see the total discounted revenue for my merchant from this invoice which includes bulk discounts in the calculation

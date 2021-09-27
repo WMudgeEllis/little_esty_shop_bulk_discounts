@@ -77,6 +77,8 @@ RSpec.describe InvoiceItem, type: :model do
       #the rest is just for noise/making sure that queries are being correct
       @merchant2 = Merchant.create!(name: 'Jewelry')
 
+      @bulk_discount_4 = BulkDiscount.create!(merchant_id: @merchant2.id, discount: 99, threshold: 1)
+
       @item_7 = Item.create!(name: "Scrunchie", description: "This holds up your hair but is bigger", unit_price: 3, merchant_id: @merchant1.id)
       @item_8 = Item.create!(name: "Butterfly Clip", description: "This holds up your hair but in a clip", unit_price: 5, merchant_id: @merchant1.id)
 
