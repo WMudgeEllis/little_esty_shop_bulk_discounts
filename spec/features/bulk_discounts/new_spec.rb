@@ -1,7 +1,6 @@
 require "rails_helper"
 
 RSpec.describe 'new page' do
-
   before :each do
     @merchant1 = Merchant.create!(name: 'Hair Care')
 
@@ -49,9 +48,7 @@ RSpec.describe 'new page' do
     visit new_merchant_bulk_discount_path(@merchant1)
   end
 
-
   it 'can create a new bulk discount' do
-
     fill_in :bulk_discount_discount, with: 4
     fill_in :bulk_discount_threshold, with: 7
 

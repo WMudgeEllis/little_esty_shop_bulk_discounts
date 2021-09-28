@@ -1,7 +1,6 @@
 require "rails_helper"
 
 RSpec.describe 'bulk discount show page' do
-
   before :each do
     @merchant1 = Merchant.create!(name: 'Hair Care')
 
@@ -14,7 +13,6 @@ RSpec.describe 'bulk discount show page' do
     expect(page).to have_content("Percent off: #{@bulk_discount_1.discount}")
     expect(page).to have_content("Quantity threshold: #{@bulk_discount_1.threshold}")
   end
-
 
   it 'links to edit page' do
     click_link 'edit'
