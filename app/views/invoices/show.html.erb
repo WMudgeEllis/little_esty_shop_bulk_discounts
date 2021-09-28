@@ -21,7 +21,10 @@
 
   <p> Created on: <%= @invoice.created_at.strftime("%A, %B %-d, %Y") %></p>
   <p>Total Revenue: <%= @invoice.merch_total_revenue(@merchant.id) %></p>
-  <p>Discounted Revenue: <%= @invoice.merch_discounted_revenue(@merchant.id).round(2) %></p>
+  <p>Discounted Revenue:
+    <% if @invoice.merch_discounted_revenue(@merchant.id) != @invoice.merch_total_revenue(@merchant.id)%>
+      <%= @invoice.merch_discounted_revenue(@merchant.id).round(2) %></p>
+    <% end %>
 
 
   <h4>Customer:</h4>
