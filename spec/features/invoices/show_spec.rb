@@ -151,8 +151,8 @@ RSpec.describe 'invoices show' do
       @invoice_7 = Invoice.create!(customer_id: @customer_6.id, status: 2)
 
       @invoice_8 = Invoice.create!(customer_id: @customer_6.id, status: 1)
-
-      @ii_3 = InvoiceItem.create!(invoice_id: @invoice_3.id, item_id: @item_2.id, quantity: 2, unit_price: 8, status: 2)
+      # ii_3 is the one that makes merch_discounted_revenue != discounted_revenue
+      @ii_3 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_6.id, quantity: 2, unit_price: 8, status: 2)
       @ii_4 = InvoiceItem.create!(invoice_id: @invoice_4.id, item_id: @item_3.id, quantity: 3, unit_price: 5, status: 1)
       @ii_6 = InvoiceItem.create!(invoice_id: @invoice_5.id, item_id: @item_4.id, quantity: 1, unit_price: 1, status: 1)
       @ii_7 = InvoiceItem.create!(invoice_id: @invoice_6.id, item_id: @item_7.id, quantity: 1, unit_price: 3, status: 1)
@@ -173,7 +173,7 @@ RSpec.describe 'invoices show' do
     it 'shows discounted revenue' do
       visit merchant_invoice_path(@merchant1, @invoice_1)
 
-      expect(page).to have_content(@invoice_1.discounted_revenue)
+      expect(page).to have_content(@invoice_1.merch_discounted_revenue(@merchant1.id))
     end
 
     it 'links to applied discounts' do
