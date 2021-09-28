@@ -17,7 +17,7 @@ class Invoice < ApplicationRecord
   def merch_total_revenue(merchant_id)
     invoice_items.joins(:item)
                  .select('invoice_items.*, items.merchant_id')
-                 .where('items.merchant_id = ?', merchant_id)
+                 .where(items: {merchant_id: merchant_id})
                  .sum("invoice_items.unit_price * quantity")
   end
 
@@ -28,7 +28,7 @@ class Invoice < ApplicationRecord
   def merch_discounted_revenue(merchant_id)
     invoice_items.joins(:item)
                  .select('invoice_items.*, items.merchant_id')
-                 .where('items.merchant_id = ?', merchant_id)
+                 .where(items: {merchant_id: merchant_id})
                  .sum {|ii| ii.discounted_total}
   end
 end
