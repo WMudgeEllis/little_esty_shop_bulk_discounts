@@ -19,7 +19,6 @@ RSpec.describe 'bulk discount edit page' do
     expect(page).to have_content(1)
     expect(page).to have_content(7)
   end
-  #add test for flashes for invalid numbers?
 
   it 'can flash for invalid discount' do
     fill_in :bulk_discount_discount, with: 105
