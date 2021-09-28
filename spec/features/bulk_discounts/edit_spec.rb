@@ -31,8 +31,8 @@ RSpec.describe 'bulk discount edit page' do
   end
 
   it 'can flash for invalid threshold' do
-    fill_in :bulk_discount_discount, with: 105
-    fill_in :bulk_discount_threshold, with: 4
+    fill_in :bulk_discount_discount, with: 55
+    fill_in :bulk_discount_threshold, with: -1
     click_button :save
 
     expect(current_path).to eq(edit_merchant_bulk_discount_path(@merchant1, @bulk_discount_1))
