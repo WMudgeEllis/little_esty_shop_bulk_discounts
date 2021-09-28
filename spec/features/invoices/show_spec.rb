@@ -42,7 +42,7 @@ RSpec.describe 'invoices show' do
       @ii_8 = InvoiceItem.create!(invoice_id: @invoice_7.id, item_id: @item_8.id, quantity: 1, unit_price: 5, status: 1)
       @ii_9 = InvoiceItem.create!(invoice_id: @invoice_7.id, item_id: @item_4.id, quantity: 1, unit_price: 1, status: 1)
       @ii_10 = InvoiceItem.create!(invoice_id: @invoice_8.id, item_id: @item_5.id, quantity: 1, unit_price: 1, status: 1)
-      @ii_11 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_8.id, quantity: 12, unit_price: 6, status: 1)
+      @ii_11 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_5.id, quantity: 12, unit_price: 6000, status: 1)
 
       @transaction1 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @invoice_1.id)
       @transaction2 = Transaction.create!(credit_card_number: 230948, result: 1, invoice_id: @invoice_2.id)
@@ -83,7 +83,7 @@ RSpec.describe 'invoices show' do
     it "shows the total revenue for this invoice" do
       visit merchant_invoice_path(@merchant1, @invoice_1)
 
-      expect(page).to have_content(@invoice_1.total_revenue)
+      expect(page).to have_content(@invoice_1.merch_total_revenue(@merchant1.id))
     end
 
     it "shows a select field to update the invoice status" do
