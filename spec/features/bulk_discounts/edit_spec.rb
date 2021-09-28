@@ -4,7 +4,6 @@ RSpec.describe 'bulk discount edit page' do
 
   before :each do
     @merchant1 = Merchant.create!(name: 'Hair Care')
-
     @bulk_discount_1 = BulkDiscount.create!(merchant_id: @merchant1.id, discount: 10, threshold: 30)
 
     visit edit_merchant_bulk_discount_path(@merchant1, @bulk_discount_1)
