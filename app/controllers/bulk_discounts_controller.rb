@@ -1,56 +1,57 @@
 class BulkDiscountsController < ApplicationController
+  before_action :find_merchant_and_bulk_discount, only: [:show, :destroy, :edit, :update]
+  before_action :find_merchant, only: [:index, :create, :new]
 
   def index
-    @merchant = Merchant.find(params[:merchant_id])
     @bulk_discounts = @merchant.bulk_discounts
     @holidays = HolidayService.new.next_three_holidays
   end
 
   def show
-    @merchant = Merchant.find(params[:merchant_id])
-    @bulk_discount = BulkDiscount.find(params[:id])
+  end
+
+  def edit
   end
 
   def new
-    @merchant = Merchant.find(params[:merchant_id])
     @bulk_discount = BulkDiscount.new
   end
 
   def create
-    merchant= Merchant.find(params[:merchant_id])
-    bulk_discount = merchant.bulk_discounts.new(bulk_discount_params)
+    bulk_discount = @merchant.bulk_discounts.new(bulk_discount_params)
     if bulk_discount.save
-      redirect_to merchant_bulk_discounts_path(merchant)
+      redirect_to merchant_bulk_discounts_path(@merchant)
     else
       flash[:alert] = bulk_discount.errors.full_messages.to_sentence
-      redirect_to new_merchant_bulk_discount_path(merchant)
+      redirect_to new_merchant_bulk_discount_path(@merchant)
     end
   end
 
   def destroy
-    merchant = Merchant.find(params[:merchant_id])
-    bulk_discount = BulkDiscount.find(params[:id])
-    bulk_discount.delete
-    redirect_to merchant_bulk_discounts_path()
-  end
-
-  def edit
-    @merchant = Merchant.find(params[:merchant_id])
-    @bulk_discount = BulkDiscount.find(params[:id])
+    @bulk_discount.delete
+    redirect_to merchant_bulk_discounts_path(@merchant)
   end
 
   def update
-    merchant = Merchant.find(params[:merchant_id])
-    bulk_discount = BulkDiscount.find(params[:id])
-
-    bulk_discount.update(bulk_discount_params)
-
-    redirect_to merchant_bulk_discount_path(merchant, bulk_discount)
+    if @bulk_discount.update(bulk_discount_params)
+      redirect_to merchant_bulk_discount_path(@merchant, @bulk_discount)
+    else
+      flash[:alert] = @bulk_discount.errors.full_messages.to_sentence
+      redirect_to edit_merchant_bulk_discount_path(@merchant, @bulk_discount)
+    end
   end
 
   private
-
   def bulk_discount_params
     params.require(:bulk_discount).permit(:discount, :threshold)
+  end
+
+  def find_merchant
+    @merchant = Merchant.find(params[:merchant_id])
+  end
+
+  def find_merchant_and_bulk_discount
+    @merchant = Merchant.find(params[:merchant_id])
+    @bulk_discount = BulkDiscount.find(params[:id])
   end
 end
